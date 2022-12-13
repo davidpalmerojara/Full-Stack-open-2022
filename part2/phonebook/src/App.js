@@ -3,7 +3,6 @@ import Persons from './components/Persons';
 import Filter from './components/Filter';
 import PersonForm from './components/PersonForm';
 import phoneService from './services/phoneServices';
-import Notification from './components/Notification';
 
 function App() {
   const [persons, setPersons] = useState([]);
@@ -21,6 +20,7 @@ function App() {
       })
       .catch((error) => {
         console.log(error);
+        setError('Could not load data from the server');
       });
   }, []);
 
@@ -43,12 +43,14 @@ function App() {
       .create(person)
       .then((newPerson) => {
         setPersons([...persons, newPerson]);
+        setSuccess(`User ${person.name} was added succesfully`);
+        setTimeout(() => setSuccess(null), 3000);
       })
       .catch((error) => {
         console.log(error);
+        setError(error.response.data.error);
+        setTimeout(() => setError(null), 3000);
       });
-    setSuccess(`User ${person.name} was added succesfully`);
-    setTimeout(() => setSuccess(null), 5000);
   };
 
   const updatePerson = () => {
@@ -68,14 +70,14 @@ function App() {
             persons.map((person) => (person.id !== id ? person : res))
           );
           setSuccess(`User ${person.name} was updated succesfully`);
-          setTimeout(() => setSuccess(null), 5000);
+          setTimeout(() => setSuccess(null), 3000);
         })
         .catch((error) => {
           console.log(error);
           setError(
             `Information of ${person.name} has already been removed from server`
           );
-          setTimeout(() => setError(null), 5000);
+          setTimeout(() => setError(null), 3000);
         });
     }
   };
@@ -92,7 +94,7 @@ function App() {
           setError(
             `Information of ${name} has already been removed from server`
           );
-          setTimeout(() => setError(null), 5000);
+          setTimeout(() => setError(null), 3000);
         });
     }
   };
@@ -110,22 +112,31 @@ function App() {
   };
 
   return (
-    <div>
-      <h1>Phonebook</h1>
-      <Notification success={success} error={error} />
-      <Filter searchTerm={searchTerm} handleSearchChange={handleSearchChange} />
-      <PersonForm
-        handleForm={handleForm}
-        newName={newName}
-        handleNameChange={handleNameChange}
-        newNumber={newNumber}
-        handleNumberChange={handleNumberChange}
-      />
-      <Persons
-        persons={persons}
-        searchTerm={searchTerm}
-        deletePerson={deletePerson}
-      />
+    <div className="h-screen w-screen">
+      <nav className="border border-gray-200 px-2 sm:px-4 py-2 mb-10 flex flex-col md:flex-row justify-between md:items-center">
+        <h1 className="text-3xl font-bold">Phonebook</h1>
+        <Filter
+          searchTerm={searchTerm}
+          handleSearchChange={handleSearchChange}
+        />
+      </nav>
+      <div className="grid grid-cols-1 grid-rows-2 md:grid-cols-5 md:grid-rows-1 md:gap-20 gap-8 m-4">
+        <PersonForm
+          handleForm={handleForm}
+          newName={newName}
+          handleNameChange={handleNameChange}
+          newNumber={newNumber}
+          handleNumberChange={handleNumberChange}
+          success={success}
+          error={error}
+        />
+        <Persons
+          handleSearchChange={handleSearchChange}
+          persons={persons}
+          searchTerm={searchTerm}
+          deletePerson={deletePerson}
+        />
+      </div>
     </div>
   );
 }

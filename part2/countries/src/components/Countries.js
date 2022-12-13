@@ -3,7 +3,7 @@ import SearchResult from './SearchResult';
 
 const Countries = ({ filteredCountries, setFilteredCountries }) => {
   return (
-    <div>
+    <div className="flex flex-col">
       {filteredCountries.map((country) => {
         return filteredCountries.length === 1 ? (
           <Country key={country?.name.common} country={country} />

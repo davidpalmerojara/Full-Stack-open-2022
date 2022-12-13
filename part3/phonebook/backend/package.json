@@ -1,0 +1,39 @@
+{
+  "name": "fs-phonebook-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:ui": "rm -rf build && cd ../frontend/ && npm run build && cp -r build ../backend && rm -rf build",
+    "deploy": "fly deploy",
+    "deploy:full": "npm run build:ui && npm run deploy",
+    "logs:prod": "fly logs",
+    "lint": "eslint . --fix",
+    "pretty": "prettier --write ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/davidpalmerojara/FS-Phonebook-BackEnd.git"
+  },
+  "author": "David Palmero",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/davidpalmerojara/FS-Phonebook-BackEnd/issues"
+  },
+  "homepage": "https://github.com/davidpalmerojara/FS-Phonebook-BackEnd#readme",
+  "devDependencies": {
+    "eslint": "^8.29.0",
+    "nodemon": "^2.0.20",
+    "prettier": "^2.8.1"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongoose": "^6.8.0",
+    "morgan": "^1.10.0"
+  }
+}

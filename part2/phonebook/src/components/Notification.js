@@ -1,13 +1,15 @@
 import React from 'react';
 
-const Notification = ({ success, error }) => {
-  if (success === null && error === null) return null;
-
+const Notification = ({ success }) => {
   return (
-    <div className={success ? 'success' : 'error'}>
-      {success ? success : error}
-    </div>
+    success && (
+      <div className="bg-green-100 text-green-600 border border-green-600 rounded-lg p-2 mb-4">
+        {success}
+      </div>
+    )
   );
 };
 
 export default Notification;
+
+//
